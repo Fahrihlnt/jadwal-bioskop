@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pemilihan Kursi Bioskop</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .screen {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            margin: 20px auto;
+            width: 200px;
+            border-radius: 5px;
+        }
+        
+        .seats {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .seat {
+            width: 40px;
+            height: 40px;
+            background-color: #ccc;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .seat.selected {
+            background-color: #6ab04c;
+        }
+        
+        #checkout-btn {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        #checkout-btn:hover {
+            background-color: #0056b3;
+        }
+        
+    </style>
+    <div class="container">
+        <h1>Pilih Kursi Bioskop Anda</h1>
+        <div class="screen">Screen</div>
+        <div class="seats">
+            <!-- Kursi-kursi akan ditambahkan secara dinamis di sini menggunakan JavaScript -->
+        </div>
+        <button id="checkout-btn">Checkout</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const seatsContainer = document.querySelector('.seats');
+            const checkoutBtn = document.getElementById('checkout-btn');
+            const seats = 36; // Jumlah total kursi
+            let selectedSeats = [];
+        
+            // Buat kursi-kursi
+            for (let i = 1; i <= seats; i++) {
+                const seat = document.createElement('div');
+                seat.classList.add('seat');
+                seat.innerText = String.fromCharCode(64 + Math.floor((i-1) / 6) + 1) + '-' + ((i % 6 === 0) ? 6 : (i % 6)); // Menyusun label kursi
+                seat.addEventListener('click', () => {
+                    // Toggle pemilihan kursi
+                    if (seat.classList.contains('selected')) {
+                        seat.classList.remove('selected');
+                        selectedSeats = selectedSeats.filter(seatNumber => seatNumber !== i);
+                    } else {
+                        seat.classList.add('selected');
+                        selectedSeats.push(i);
+                    }
+                });
+                seatsContainer.appendChild(seat);
+            }
+        
+            // Handler untuk tombol checkout
+            checkoutBtn.addEventListener('click', () => {
+                if (selectedSeats.length === 0) {
+                    alert('Anda belum memilih kursi!');
+                } else {
+                    const seatsStr = selectedSeats.map(seat => String.fromCharCode(64 + Math.floor((seat-1) / 6) + 1) + '-' + ((seat % 6 === 0) ? 6 : (seat % 6))).join(', ');
+                    alert('Anda telah memilih kursi: ' + seatsStr);
+                    // Di sini, Anda dapat menambahkan logika lanjutan, misalnya untuk memproses pembayaran atau memperbarui basis data.
+                }
+            });
+        });
+        
+    </script>
+</body>
+</html>
